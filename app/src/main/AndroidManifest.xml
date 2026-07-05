@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ===== PERMISSIONS ===== -->
+    <!-- Exact alarms schedule karva mate (Android 12+) -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <!-- Notification batavva mate (Android 13+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Full screen alarm intent lockscreen upar batavva mate -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <!-- Phone restart thay tyare alarms re-schedule karva mate -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- Alarm vaage tyare screen on / CPU wake karva mate -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Alarm App"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AlarmApp"
+        tools:targetApi="34">
+
+        <!-- ===== MAIN ACTIVITY (Alarm list + FAB) ===== -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ===== ADD / EDIT ALARM (Date picker + Time picker) ===== -->
+        <activity
+            android:name=".AddEditAlarmActivity"
+            android:exported="false"
+            android:label="Add Alarm"
+            android:parentActivityName=".MainActivity" />
+
+        <!-- ===== FULL SCREEN ALARM ACTIVITY (shows on lockscreen too) ===== -->
+        <activity
+            android:name=".FullScreenAlarmActivity"
+            android:exported="false"
+            android:showOnLockScreen="true"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.AlarmApp.FullScreen" />
+
+        <!-- ===== BROADCAST RECEIVER: jyare alarm time thay tyare aa trigger thase ===== -->
+        <receiver
+            android:name=".AlarmReceiver"
+            android:exported="false" />
+
+        <!-- ===== BROADCAST RECEIVER: phone reboot pachi alarms re-schedule karva ===== -->
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
