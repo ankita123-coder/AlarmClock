@@ -1,4 +1,4 @@
-package com.example.alarmapp
+package com.example.alarmclock
 
 import android.Manifest
 import android.app.AlarmManager

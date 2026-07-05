@@ -1,4 +1,4 @@
-package com.example.alarmapp
+package com.example.alarmclock
 
 import org.json.JSONObject
 import java.util.Calendar
