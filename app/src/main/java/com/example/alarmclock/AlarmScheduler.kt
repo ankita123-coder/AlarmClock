@@ -41,16 +41,14 @@ object AlarmScheduler {
         val triggerAt = alarm.toTriggerMillis()
 
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && am.canScheduleExactAlarms()) {
+            val alarmClockInfo = AlarmManager.AlarmClockInfo(triggerAt, pendingIntent)
+            am.setAlarmClock(alarmClockInfo, pendingIntent)
+        } catch (e: SecurityException) {
+            try {
                 am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
-            } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-                am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
-            } else {
-                // Exact alarm permission nathi -> normal (thodu inexact) alarm
+            } catch (ex: Exception) {
                 am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
             }
-        } catch (e: SecurityException) {
-            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
         }
     }
 
@@ -77,9 +75,14 @@ object AlarmScheduler {
         )
         val triggerAt = System.currentTimeMillis() + minutesFromNow * 60_000L
         try {
-            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
+            val alarmClockInfo = AlarmManager.AlarmClockInfo(triggerAt, pendingIntent)
+            am.setAlarmClock(alarmClockInfo, pendingIntent)
         } catch (e: SecurityException) {
-            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
+            try {
+                am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
+            } catch (ex: Exception) {
+                am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
+            }
         }
     }
 }
