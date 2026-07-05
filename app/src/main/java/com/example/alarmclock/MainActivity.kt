@@ -129,7 +129,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 3) Battery optimization ignore karva mate sujhav (background ma alarm miss na thay)
+        // 3) Battery optimization check option currently commented out to avoid redirecting user automatically
+        /*
         val pm = getSystemService(POWER_SERVICE) as android.os.PowerManager
         if (!pm.isIgnoringBatteryOptimizations(packageName)) {
             try {
@@ -141,5 +142,6 @@ class MainActivity : AppCompatActivity() {
                 // Kai devices upar aa action support nathi thatu, ignore kari devu
             }
         }
+        */
     }
 }
